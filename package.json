@@ -1,0 +1,32 @@
+{
+  "name": "dropbox-json-db",
+  "version": "0.0.1",
+  "description": "Utility for using the Dropbox Javascript SDK as a FS System with a hacky JSON database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server",
+    "build": "NODE_ENV=production webpack"
+  },
+  "author": "Jonathan Hudak",
+  "license": "MIT",
+  "dependencies": {
+    "dropbox": "^4.0.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@reach/router": "^1.2.1",
+    "babel-loader": "^8.0.5",
+    "dotenv-webpack": "^1.6.0",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^16.7.0-alpha.2",
+    "react-cache": "^2.0.0-alpha.1",
+    "react-dom": "^16.7.0-alpha.2",
+    "react-hot-loader": "^4.6.3",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  }
+}
