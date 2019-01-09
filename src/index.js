@@ -5,41 +5,106 @@ const Dropbox = require("dropbox").Dropbox;
 
 const TOKEN_KEY = "dbdbtoken";
 
-let client;
-
-export function getClient() {
-  return client;
+function createJsonFile(content, fileName = "dbdb.json") {
+  return new File([JSON.stringify(content, null, 2)], fileName, {
+    type: "text/json",
+    lastModified: new Date().getTime()
+  });
 }
 
-export function getAccessTokenFromUrl() {
-  return parseQueryString(window.location.hash).access_token;
+function uploadFile({ client, path, file }) {
+  return client.filesUpload({
+    path,
+    contents: file,
+    mode: "overwrite"
+  });
 }
 
-export function createClient({ defaultAccessToken, fetchMethod = fetch } = {}) {
-  const sessionToken = sessionStorage.getItem(TOKEN_KEY);
-  const accessToken =
-    defaultAccessToken || sessionToken || getAccessTokenFromUrl();
+export default function({
+  databaseFileName = "dbdb",
+  databaseDirectoryPath = "/",
+  authRedirect = window.location.origin,
+  clientId,
+  fetchMethod = fetch,
+  tokenKey = TOKEN_KEY
+}) {
+  let client;
+  const databaseFileNameWithExtension = `${databaseFileName}.json`;
+  const databaseFilePath = `${databaseDirectoryPath}${databaseFileNameWithExtension}`;
 
-  console.log(accessToken);
-  if (!sessionToken && accessToken) {
-    sessionStorage.setItem(TOKEN_KEY, accessToken);
+  function getClient() {
+    return client;
   }
 
-  if (accessToken) {
-    console.log("accessToken", accessToken);
-    client = new Dropbox({ accessToken, fetch: fetchMethod });
-    return getClient();
+  function getAccessTokenFromUrl() {
+    return parseQueryString(window.location.hash).access_token;
   }
 
-  console.warn("No access token for Dropbox available");
-}
+  function createClient() {
+    const sessionToken = sessionStorage.getItem(tokenKey);
+    const accessToken = sessionToken || getAccessTokenFromUrl();
 
-export function getAuthUrl(clientId) {
-  const dbx = new Dropbox({ clientId, fetch });
-  return dbx.getAuthenticationUrl(`${window.location.origin}/auth`);
-}
+    if (!sessionToken && accessToken) {
+      sessionStorage.setItem(tokenKey, accessToken);
+    }
 
-export function logOutDropbox() {
-  console.log("logOutDropbox called");
-  window.sessionStorage.removeItem(TOKEN_KEY);
+    if (accessToken) {
+      client = new Dropbox({ accessToken, fetch: fetchMethod });
+      return getClient();
+    }
+  }
+
+  function getAuthUrl() {
+    const dbx = new Dropbox({ clientId, fetch });
+    return dbx.getAuthenticationUrl(authRedirect);
+  }
+
+  function logOutDropbox() {
+    client = undefined;
+    window.sessionStorage.removeItem(tokenKey);
+  }
+
+  function saveDatabase({ data, databaseName }) {
+    uploadFile({
+      client,
+      file: createJsonFile(data, databaseName),
+      path: databaseFilePath
+    });
+  }
+
+  function readDatabase() {
+    return new Promise((resolve, error) => {
+      client
+        .filesSearch({
+          path: "",
+          query: databaseFileNameWithExtension
+        })
+        .then(({ matches }) => {
+          if (matches && matches.length) {
+            const [databaseFile] = matches;
+            client
+              .filesDownload({ path: databaseFile.metadata.path_display })
+              .then(r => {
+                var fileReader = new FileReader();
+                fileReader.onload = function() {
+                  resolve(JSON.parse(this.result));
+                };
+                fileReader.readAsText(r.fileBlob);
+              });
+          } else {
+            console.warn("no db found");
+            resolve();
+          }
+        });
+    });
+  }
+
+  return {
+    authUrl: getAuthUrl(),
+    createClient,
+    getClient,
+    logOutDropbox,
+    readDatabase,
+    saveDatabase
+  };
 }

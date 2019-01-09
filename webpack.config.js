@@ -2,15 +2,17 @@ const path = require("path");
 const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 module.exports = {
-  watch: true,
-  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  watch: !isProduction,
+  mode: isProduction ? "production" : "development",
   entry: {
     index: "./src/index.js",
-    demo: "./src/demo/index.js"
+    ...(isProduction ? {} : { demo: "./src/demo/index.js" })
   },
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].js",
     path: path.resolve(__dirname)
   },
   devServer: {

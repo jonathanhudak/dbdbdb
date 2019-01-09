@@ -1,5 +1,5 @@
 {
-  "name": "dropbox-json-db",
+  "name": "dbdb",
   "version": "0.0.1",
   "description": "Utility for using the Dropbox Javascript SDK as a FS System with a hacky JSON database",
   "main": "index.js",
