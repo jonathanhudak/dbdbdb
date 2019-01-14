@@ -37,5 +37,3 @@ if (!client) {
   });
 }
 ```
-
-> > > > > > > Add readme
