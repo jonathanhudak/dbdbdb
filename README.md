@@ -8,9 +8,9 @@
 ### Add as a dependency to your app.
 
 1. `npm i dbdbdb --save`
-2. See [example](https://github.com/jonathanhudak/dbdb/tree/master/src/demo) for usage
+2. See [example](https://github.com/jonathanhudak/dbdb/tree/master/src/demo) for usage with React
 
-### Example usage:
+### Basic Example:
 
 ```js
 import dbdb from "dbdbdb";
