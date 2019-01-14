@@ -21,7 +21,6 @@
     "@reach/router": "^1.2.1",
     "babel-loader": "^8.0.5",
     "dotenv-webpack": "^1.6.0",
-    "peer-deps-externals-webpack-plugin": "^1.0.4",
     "react": "^16.7.0-alpha.2",
     "react-cache": "^2.0.0-alpha.1",
     "react-dom": "^16.7.0-alpha.2",

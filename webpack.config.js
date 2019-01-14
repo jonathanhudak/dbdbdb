@@ -1,16 +1,13 @@
 const path = require("path");
 const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
-const PeerDepsExternalsPlugin = require("peer-deps-externals-webpack-plugin");
-
-const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
   watch: !isProduction,
-  mode: isProduction ? "production" : "development",
+  mode: "development",
   entry: {
     index: "./src/index.js",
-    ...(isProduction ? {} : { demo: "./src/demo/index.js" })
+    demo: "./src/demo/index.js"
   },
   output: {
     filename: "[name].js",
@@ -34,15 +31,8 @@ module.exports = {
       }
     ]
   },
-  optimization: {
-    minimize: false
-  },
   resolve: {
     extensions: ["*", ".js", ".jsx"]
   },
-  plugins: [
-    ...(isProduction
-      ? []
-      : [new webpack.HotModuleReplacementPlugin(), new Dotenv()])
-  ]
+  plugins: [new webpack.HotModuleReplacementPlugin(), new Dotenv()]
 };
