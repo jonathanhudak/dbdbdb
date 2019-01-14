@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server",
-    "build": "NODE_ENV=production webpack"
+    "build": "rollup -c"
   },
   "author": "Jonathan Hudak",
   "license": "MIT",
   "dependencies": {
-    "dropbox": "^4.0.15"
+    "dropbox": "^4.0.15",
+    "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -20,11 +21,12 @@
     "@reach/router": "^1.2.1",
     "babel-loader": "^8.0.5",
     "dotenv-webpack": "^1.6.0",
-    "isomorphic-fetch": "^2.2.1",
+    "peer-deps-externals-webpack-plugin": "^1.0.4",
     "react": "^16.7.0-alpha.2",
     "react-cache": "^2.0.0-alpha.1",
     "react-dom": "^16.7.0-alpha.2",
     "react-hot-loader": "^4.6.3",
+    "rollup": "^1.1.0",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"

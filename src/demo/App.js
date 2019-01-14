@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
-import dbdb from "..";
 import { hot } from "react-hot-loader/root";
+const dbdb = require("../../index.js");
 
 const {
   authUrl,
