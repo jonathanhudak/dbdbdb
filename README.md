@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-
-## DBDBDB - Simple JSON Database Using [Dropbox Javascript SDK](https://github.com/dropbox/dropbox-sdk-js)
+# DBDBDB - Simple JSON Database Using [Dropbox Javascript SDK](https://github.com/dropbox/dropbox-sdk-js)
 
 ### Prerequisites
 
