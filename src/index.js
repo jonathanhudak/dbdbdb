@@ -32,10 +32,6 @@ export default function({
   const databaseFileNameWithExtension = `${databaseFileName}.json`;
   const databaseFilePath = `${databaseDirectoryPath}${databaseFileNameWithExtension}`;
 
-  function getClient() {
-    return client;
-  }
-
   function getAccessTokenFromUrl() {
     return parseQueryString(window.location.hash).access_token;
   }
@@ -52,6 +48,10 @@ export default function({
       client = new Dropbox({ accessToken, fetch: fetchMethod });
       return getClient();
     }
+  }
+
+  function getClient() {
+    return client || createClient();
   }
 
   function getAuthUrl() {
