@@ -79,7 +79,7 @@ function App() {
         saveDatabase({ data: { articles } });
       } else {
         readDatabase().then(({ articles }) => {
-          setArticles(articles);
+          setArticles(articles || []);
           setArticlesFetched(true);
         });
       }
