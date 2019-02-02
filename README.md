@@ -15,9 +15,7 @@
 ```js
 import dbdb from "dbdbdb";
 
-const db = dbdb({ clientId: "xhb23gwddzfsp8k" });
-
-const { getClient, createClient } = db;
+const { getClient, createClient } = dbdb({ clientId: "xhb23gwddzfsp8k" });
 
 const loginLink = document.createElement("a");
 loginLink.href = db.authUrl;
@@ -37,3 +35,12 @@ if (!client) {
   });
 }
 ```
+
+authUrl
+createClient,
+getClient,
+logOutDropbox,
+readDatabase,
+saveDatabase,
+updateDatabase,
+uploadImage
