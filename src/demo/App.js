@@ -8,7 +8,9 @@ const {
   createClient,
   logOutDropbox,
   readDatabase,
-  saveDatabase
+  saveDatabase,
+  uploadImage,
+  updateDatabase
 } = dbdb({
   clientId: process.env.APP_ID
 });
@@ -62,6 +64,51 @@ function ArticleForm({ save }) {
   );
 }
 
+function ImageGallery() {
+  const [imagesFetched, setImagesFetched] = useState(false);
+  const [images, setImages] = useState([]);
+  const [file, setFile] = useState(null);
+  function uploadFile(e) {
+    setFile([...e.target.files][0]);
+  }
+  async function save(e) {
+    e.preventDefault();
+    if (file) {
+      const image = await uploadImage({ file });
+      setImages([...images, image]);
+    }
+  }
+  useEffect(() => {
+    if (imagesFetched) {
+      updateDatabase({ data: { imageGallery: images } });
+    } else {
+      readDatabase().then(({ imageGallery }) => {
+        setImages(imageGallery || []);
+        setImagesFetched(true);
+      });
+    }
+  }, [images]);
+  if (!imagesFetched) return <p>Loading images...</p>;
+  return (
+    <div>
+      <form onSubmit={save}>
+        <label htmlFor="image">Choose an image:</label>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          onChange={uploadFile}
+          accept="image/png, image/jpeg"
+        />
+        <button type="submit">Upload</button>
+      </form>
+      {images.map(image => (
+        <img key={image.url} src={image.url} alt={image.name} />
+      ))}
+    </div>
+  );
+}
+
 function App() {
   const [articlesFetched, setArticlesFetched] = useState(false);
   const [articles, setArticles] = useState([]);
@@ -72,20 +119,17 @@ function App() {
     setClient(null);
   }
 
-  useEffect(
-    () => {
-      if (!client) return;
-      if (articlesFetched) {
-        saveDatabase({ data: { articles } });
-      } else {
-        readDatabase().then(({ articles }) => {
-          setArticles(articles || []);
-          setArticlesFetched(true);
-        });
-      }
-    },
-    [articles]
-  );
+  useEffect(() => {
+    if (!client) return;
+    if (articlesFetched) {
+      updateDatabase({ data: { articles } });
+    } else {
+      readDatabase().then(({ articles }) => {
+        setArticles(articles || []);
+        setArticlesFetched(true);
+      });
+    }
+  }, [articles]);
 
   return (
     <div>
@@ -93,6 +137,7 @@ function App() {
         <div>
           <button onClick={logOut}>Logout</button>
           <UserInfo client={client} />
+          {client && <ImageGallery />}
           {articlesFetched ? (
             <ul>
               {articles.map(a => (

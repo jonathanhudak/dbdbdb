@@ -1,6 +1,6 @@
 {
   "name": "dbdbdb",
-  "version": "0.0.45",
+  "version": "0.0.5",
   "description": "Utility for using the Dropbox Javascript SDK as a FS System with a hacky JSON database",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,7 @@
     "dropbox": "^4.0.15",
     "isomorphic-fetch": "^2.2.1"
   },
+  "browserslist": "> 0.25%, not dead",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",

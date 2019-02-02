@@ -99,12 +99,38 @@ export default function({
     });
   }
 
+  async function updateDatabase({ data, databaseName }) {
+    const currentDatabase = await readDatabase();
+    return uploadFile({
+      client,
+      file: createJsonFile({ ...currentDatabase, ...data }, databaseName),
+      path: databaseFilePath
+    });
+  }
+
+  async function uploadImage({ path = "/images/", file }) {
+    const filePath = `${path}${file.name}`;
+    await client.filesUpload({
+      path: filePath,
+      contents: file,
+      mode: "overwrite"
+    });
+    const image = await client.sharingCreateSharedLink({ path: filePath });
+    return {
+      ...image,
+      name: file.name,
+      url: image.url.replace(/.$/, "1")
+    };
+  }
+
   return {
     authUrl: getAuthUrl(),
     createClient,
     getClient,
     logOutDropbox,
     readDatabase,
-    saveDatabase
+    saveDatabase,
+    updateDatabase,
+    uploadImage
   };
 }
