@@ -24,7 +24,7 @@ const {
 
 ### `authUrl` String
 
-A link to enable a user to authenticate with Dropbox and redirect to your app with an auth token.
+A url to enable a user to authenticate with Dropbox and redirect to your app with an auth token.
 
 Dropbox SDK Reference: http://dropbox.github.io/dropbox-sdk-js/Dropbox.html#getAuthenticationUrl
 
