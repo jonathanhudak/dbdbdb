@@ -82,7 +82,7 @@ function ImageGallery() {
     if (imagesFetched) {
       updateDatabase({ data: { imageGallery: images } });
     } else {
-      readDatabase().then(({ imageGallery }) => {
+      readDatabase().then(({ imageGallery } = {}) => {
         setImages(imageGallery || []);
         setImagesFetched(true);
       });
@@ -124,7 +124,7 @@ function App() {
     if (articlesFetched) {
       updateDatabase({ data: { articles } });
     } else {
-      readDatabase().then(({ articles }) => {
+      readDatabase().then(({ articles } = {}) => {
         setArticles(articles || []);
         setArticlesFetched(true);
       });

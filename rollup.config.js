@@ -2,7 +2,7 @@ export default {
   input: "src/index.js",
   output: {
     file: "index.js",
-    format: "esm"
+    format: "cjs"
   },
   external: ["dropbox", "isomorphic-fetch"]
 };

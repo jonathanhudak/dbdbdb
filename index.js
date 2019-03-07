@@ -1,4 +1,10 @@
-import fetch from 'isomorphic-fetch';
+"use strict";
+
+function _interopDefault(ex) {
+  return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
+}
+
+var fetch = _interopDefault(require("isomorphic-fetch"));
 
 function parseQueryString(str) {
   var ret = Object.create(null);
@@ -172,4 +178,4 @@ function index({
   };
 }
 
-export default index;
+module.exports = index;
