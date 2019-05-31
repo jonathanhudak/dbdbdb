@@ -1,10 +1,8 @@
-"use strict";
+'use strict';
 
-function _interopDefault(ex) {
-  return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
-}
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var fetch = _interopDefault(require("isomorphic-fetch"));
+var fetch = _interopDefault(require('isomorphic-fetch'));
 
 function parseQueryString(str) {
   var ret = Object.create(null);
@@ -69,6 +67,7 @@ function index({
   authRedirect = window.location.origin,
   clientId,
   fetchMethod = fetch,
+  defaultAccessToken,
   tokenKey = TOKEN_KEY
 }) {
   let client;
@@ -81,7 +80,8 @@ function index({
 
   function createClient() {
     const sessionToken = sessionStorage.getItem(tokenKey);
-    const accessToken = sessionToken || getAccessTokenFromUrl();
+    const accessToken =
+      defaultAccessToken || sessionToken || getAccessTokenFromUrl();
 
     if (!sessionToken && accessToken) {
       sessionStorage.setItem(tokenKey, accessToken);
@@ -92,6 +92,8 @@ function index({
       return getClient();
     }
   }
+
+  if (defaultAccessToken) createClient();
 
   function getClient() {
     return client || createClient();
