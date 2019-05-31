@@ -12,7 +12,8 @@ const {
   uploadImage,
   updateDatabase
 } = dbdb({
-  clientId: process.env.APP_ID
+  clientId: process.env.APP_ID,
+  defaultAccessToken: process.env.DROPBOX_ACCESS_TOKEN
 });
 
 const UserInfo = ({ client }) => {

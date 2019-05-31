@@ -26,6 +26,7 @@ export default function({
   authRedirect = window.location.origin,
   clientId,
   fetchMethod = fetch,
+  defaultAccessToken,
   tokenKey = TOKEN_KEY
 }) {
   let client;
@@ -38,7 +39,8 @@ export default function({
 
   function createClient() {
     const sessionToken = sessionStorage.getItem(tokenKey);
-    const accessToken = sessionToken || getAccessTokenFromUrl();
+    const accessToken =
+      defaultAccessToken || sessionToken || getAccessTokenFromUrl();
 
     if (!sessionToken && accessToken) {
       sessionStorage.setItem(tokenKey, accessToken);
@@ -49,6 +51,8 @@ export default function({
       return getClient();
     }
   }
+
+  if (defaultAccessToken) createClient();
 
   function getClient() {
     return client || createClient();
